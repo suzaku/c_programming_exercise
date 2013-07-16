@@ -6,7 +6,8 @@
 
 main() {
     int lengths[MAX_LENGTH];
-    int i, j, c, acc, state;
+    int i, c, acc, state;
+    int not_finished;
 
     for (i = 0; i < MAX_LENGTH; i++) {
         lengths[i] = 0;
@@ -23,17 +24,38 @@ main() {
                 state = OUT;
             }
         } else {
-            state = IN;
+            if (state == OUT) {
+                state = IN;
+            }
             acc += 1;
         }
     }
 
     printf("Word length distribution: \n");
 
-    for (i = 0; i < MAX_LENGTH; i++) {
-        printf("Length %d:\t", i);
-        for (j = 0; j < lengths[i]; j++) {
-            printf("|");
+    for (i = 1; i < MAX_LENGTH; i++) {
+        printf("%2d  ", i);
+    }
+    printf("\n");
+
+    not_finished = 1;
+
+    while (not_finished) {
+        not_finished = 0;
+
+        for (i = 1; i < MAX_LENGTH; i++) {
+
+            if (lengths[i] > 0) {
+                printf("__");
+                lengths[i] -= 1;
+
+                if (lengths[i] > 0) {
+                    not_finished = 1;
+                }
+            } else {
+                printf("  ");
+            }
+            printf(" ");
         }
         printf("\n");
     }
